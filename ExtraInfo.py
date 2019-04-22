@@ -32,7 +32,7 @@ bl_info = {
     "version": (0, 0, 2),
     "blender": (2, 80, 0),
     "location": "View3D",
-    "wiki_url": "",
+    "wiki_url": "https://github.com/zebus3d/ExtraInfo",
     "category": "3D View" 
 }
 
