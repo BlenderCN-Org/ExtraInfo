@@ -1,4 +1,3 @@
-import bgl
 import blf
 import bpy
 
