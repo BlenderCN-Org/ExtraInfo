@@ -44,7 +44,7 @@ font_info = {
 
 
 def draw_callback_px(self, context):
-    # esto se calcula cada pasada de dibujado del viewport:
+    # this is calculated every drawing pass of the viewport:
 
     display = []
 
@@ -73,8 +73,8 @@ def draw_callback_px(self, context):
 
     blf.size(font_id, fontSize, 72)
     
-    # sombra:
-    # el level tiene que ser 3, 5 o 0
+    # shadows:
+    # the level has to be 3, 5 o 0
     level = 5
     r = 0.0
     g = 0.0
