@@ -28,7 +28,7 @@ bl_info = {
     "name": "ExtraInfo",
     "description": "Show Extra Information in Viewport",
     "author": "zebus3d",
-    "version": (0, 0, 2),
+    "version": (0, 0, 3),
     "blender": (2, 80, 0),
     "location": "View3D",
     "wiki_url": "https://github.com/zebus3d/ExtraInfo",
@@ -42,35 +42,38 @@ font_info = {
 }
 
 
-
+# this is calculated every drawing pass of the viewport:
 def draw_callback_px(self, context):
-    # this is calculated every drawing pass of the viewport:
 
     display = []
-
     font_id = font_info["font_id"]
     
     uiScale = bpy.context.preferences.view.ui_scale
 
-    x = 19 * uiScale
+    # print("bpy.context.area.regions[1].y", bpy.context.area.regions[1].y)
+    # print("bpy.context.area.regions[1].height", bpy.context.area.regions[1].height)
 
-    toolbarWidth = bpy.context.area.regions[1].width 
+    # print("bpy.context.area.regions[2].x", bpy.context.area.regions[2].x)
+    # print("bpy.context.area.regions[2].width", bpy.context.area.regions[2].width)
 
-    # offsetTextInTop = 86 * uiScale
+    x_offset_aTool = bpy.context.area.regions[2].width
+
+    if x_offset_aTool == 1:
+        x_offset = 20 * uiScale 
+    else:   
+        x_offset = 20 * uiScale + x_offset_aTool
+
+    header_height = bpy.context.area.regions[1].height
+    header_y = bpy.context.area.regions[1].y
     
-
-    if uiScale >= 1:
-        offsetTextInTop = 86 * uiScale
-        fontSize = 11 * round(uiScale)
+    if header_height == 1:
+        y_static_offest = 132 
     else:
-        offsetTextInTop = 86 * uiScale +10
-        fontSize = 11 - 4
+        y_static_offest = 155
 
-
-    yOffset = bpy.context.area.height - offsetTextInTop 
-
-    # fontSize = 11 
-
+    y_offset = (header_height + header_y) - y_static_offest * uiScale
+    
+    fontSize = int(12 * uiScale)
     blf.size(font_id, fontSize, 72)
     
     # shadows:
@@ -132,7 +135,7 @@ def draw_callback_px(self, context):
                 value = value.replace(":",": ")
                 # print(value)
                 increment = (20*counter*uiScale)
-                blf.position(font_id, x+toolbarWidth, yOffset-increment-rendered*uiScale, 0)
+                blf.position(font_id, x_offset, y_offset-increment-rendered*uiScale, 0)
                 blf.draw(font_id, value)
 
 
