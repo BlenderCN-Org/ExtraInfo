@@ -41,18 +41,20 @@ font_info = {
     "handler": None,
 }
 
-def get_region_height(target_region):
+def get_region_property(target_region, target_property):
     matched, i = False, 0
     regions = list(bpy.context.area.regions)
-    region_height = None
+    region_property = None
     while not matched:
         if regions[i].type == target_region:
-            region_height = regions[i].height
+            region_property = getattr(regions[i], target_property)
             matched = True
         i = i+1
     
-    if region_height:
-        return region_height
+    if region_property:
+        return region_property
+
+
 
 # this is calculated every drawing pass of the viewport:
 def draw_callback_px(self, context):
@@ -82,8 +84,8 @@ def draw_callback_px(self, context):
     HUD = 4 # altura del viewport resizable
     WINDOW = 5
 
-    header_height = bpy.context.area.regions[HEADER].height
-    header_y = bpy.context.area.regions[HEADER].y
+    header_height = get_region_property('HEADER', 'height')
+    header_y = get_region_property('HEADER', 'y')
 
     # hud_y = bpy.context.area.regions[HUD].y
     # print("hud.y", bpy.context.area.regions[HUD].y)
@@ -92,7 +94,7 @@ def draw_callback_px(self, context):
     # window_y = bpy.context.area.regions[WINDOW].y
     
     
-    window_height = get_region_height('WINDOW')
+    window_height = get_region_property('WINDOW', 'height')
     # print("window.y", bpy.context.area.regions[WINDOW].y)
     # print("window.height", bpy.context.area.regions[WINDOW].height)
     
