@@ -89,10 +89,10 @@ def draw_callback_px(self, context):
     # print("window.height", window_height)
     
     # normalize y offset:
-    ui_min = 0.5
-    ui_max = 2
+    # ui_min = 0.5
+    # ui_max = 2
     # normalize range(0.5-2) to 0-1:
-    y_normalized = (ui_scale - ui_min)/(ui_max-ui_min)
+    # y_normalized = (ui_scale - ui_min)/(ui_max-ui_min)
     # print(y_normalized)
     # normalize range(0.5-2) to 0-100:
     # y_normalized = (ui_scale - ui_min)/(ui_max-ui_min)*100
@@ -108,14 +108,15 @@ def draw_callback_px(self, context):
         # size 2 max:
         # y_static_offest = 130
 
-        OldMin = 0
-        OldMax = 1
+        OldMin = 0.5
+        OldMax = 2
 
         NewMin = 35
         NewMax = 130
         
         OldRange = (OldMax - OldMin)
-        OldValue = y_normalized
+        # OldValue = y_normalized
+        OldValue = ui_scale
 
         if OldRange == 0:
             NewValue = NewMin
@@ -131,14 +132,15 @@ def draw_callback_px(self, context):
         # size 2 max:
         # y_static_offest = 180
         
-        OldMin = 0
-        OldMax = 1
+        OldMin = 0.5
+        OldMax = 2
 
         NewMin = 50
         NewMax = 180
         
         OldRange = (OldMax - OldMin)
-        OldValue = y_normalized
+        # OldValue = y_normalized
+        OldValue = ui_scale
 
         if OldRange == 0:
             NewValue = NewMin
