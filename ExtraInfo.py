@@ -48,7 +48,7 @@ def draw_callback_px(self, context):
     display = []
     font_id = font_info["font_id"]
     
-    uiScale = bpy.context.preferences.view.ui_scale
+    ui_scale = bpy.context.preferences.view.ui_scale
 
     # print("bpy.context.area.regions[1].y", bpy.context.area.regions[1].y)
     # print("bpy.context.area.regions[1].height", bpy.context.area.regions[1].height)
@@ -59,21 +59,37 @@ def draw_callback_px(self, context):
     x_offset_aTool = bpy.context.area.regions[2].width
 
     if x_offset_aTool == 1:
-        x_offset = 20 * uiScale 
+        x_offset = 20 * ui_scale 
     else:   
-        x_offset = 20 * uiScale + x_offset_aTool
+        x_offset = 20 * ui_scale + x_offset_aTool
 
     header_height = bpy.context.area.regions[1].height
     header_y = bpy.context.area.regions[1].y
     
-    if header_height == 1:
-        y_static_offest = 132 
-    else:
-        y_static_offest = 155
 
-    y_offset = (header_height + header_y) - y_static_offest * uiScale
+    # responsive:
+    # normalize y offset:
+    ui_min = 0.5
+    ui_max = 2
+    # normalize range(0.5-2) to 0-1:
+    y_normalized = (ui_scale - ui_min)/(ui_max-ui_min)
+    # print(y_normalized)
+    # normalize range(0.5-2) to 0-100:
+    # y_normalized = (ui_scale - ui_min)/(ui_max-ui_min)*100
+    # print(y_normalized)
+
+    if header_height == 1:
+        y_static_offest = 132 * y_normalized + 90
+    else:
+        y_static_offest = 155 * y_normalized + 100
+
+    # y_offset = (header_height + header_y) - y_static_offest * ui_scale
+    y_offset = (header_height + header_y) - y_static_offest  
     
-    fontSize = int(12 * uiScale)
+    # end responsive    
+    
+
+    fontSize = int(12 * ui_scale)
     blf.size(font_id, fontSize, 72)
     
     # shadows:
@@ -134,8 +150,8 @@ def draw_callback_px(self, context):
                 value = value.replace(" ","")
                 value = value.replace(":",": ")
                 # print(value)
-                increment = (20*counter*uiScale)
-                blf.position(font_id, x_offset, y_offset-increment-rendered*uiScale, 0)
+                increment = (20*counter*ui_scale)
+                blf.position(font_id, x_offset, y_offset-increment-rendered*ui_scale, 0)
                 blf.draw(font_id, value)
 
 
