@@ -41,6 +41,18 @@ font_info = {
     "handler": None,
 }
 
+def get_region_height(target_region):
+    matched, i = False, 0
+    regions = list(bpy.context.area.regions)
+    region_height = None
+    while not matched:
+        if regions[i].type == target_region:
+            region_height = regions[i].height
+            matched = True
+        i = i+1
+    
+    if region_height:
+        return region_height
 
 # this is calculated every drawing pass of the viewport:
 def draw_callback_px(self, context):
@@ -63,28 +75,77 @@ def draw_callback_px(self, context):
     else:   
         x_offset = 20 * ui_scale + x_offset_aTool
 
-    header_height = bpy.context.area.regions[1].height
-    header_y = bpy.context.area.regions[1].y
+    TOOL_HEADER = 0
+    HEADER = 1
+    TOOLS = 2
+    UI = 3
+    HUD = 4 # altura del viewport resizable
+    WINDOW = 5
+
+    header_height = bpy.context.area.regions[HEADER].height
+    header_y = bpy.context.area.regions[HEADER].y
+
+    # hud_y = bpy.context.area.regions[HUD].y
+    # print("hud.y", bpy.context.area.regions[HUD].y)
+    # print("hud.height", bpy.context.area.regions[HUD].height)
+
+    # window_y = bpy.context.area.regions[WINDOW].y
     
+    
+    window_height = get_region_height('WINDOW')
+    # print("window.y", bpy.context.area.regions[WINDOW].y)
+    # print("window.height", bpy.context.area.regions[WINDOW].height)
+    
+    # print("hud.height", bpy.context.area.regions[HUD].height)
+
+    # regionsTarget = ['TOOLS', 'HEADER', 'TOOL_HEADER', 'HUD']
+    for i, region in enumerate(bpy.context.area.regions):
+        # if region.type in regionsTarget:
+        print(i, region.type, ".y", region.y)
+        print(i, region.type, ".height", region.height)
 
     # responsive:
     # normalize y offset:
-    ui_min = 0.5
-    ui_max = 2
+    # ui_min = 0.5
+    # ui_max = 2
     # normalize range(0.5-2) to 0-1:
-    y_normalized = (ui_scale - ui_min)/(ui_max-ui_min)
+    # y_normalized = (ui_scale - ui_min)/(ui_max-ui_min)
     # print(y_normalized)
     # normalize range(0.5-2) to 0-100:
     # y_normalized = (ui_scale - ui_min)/(ui_max-ui_min)*100
     # print(y_normalized)
 
+    # OldRange = (OldMax - OldMin)  
+    # NewRange = (NewMax - NewMin)  
+    # NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
+
     if header_height == 1:
-        y_static_offest = 132 * y_normalized + 90
+        # sin header
+        # size 1:
+        y_static_offest = 65
+        # size 2 max:
+        # y_static_offest = 130
+        # size min 0:
+        # y_static_offest = 35
     else:
-        y_static_offest = 155 * y_normalized + 100
+        # con header
+        # size 1:
+        y_static_offest = 90
+        # size 2 max:
+        # y_static_offest = 180
+        # size min 0:
+        # y_static_offest = 50
 
     # y_offset = (header_height + header_y) - y_static_offest * ui_scale
-    y_offset = (header_height + header_y) - y_static_offest  
+    # y_offset = (header_height + header_y) - y_static_offest - window_height
+    
+    # y_offset = header_height - y_static_offest
+    y_offset = window_height - y_static_offest
+
+    # print("y_static_offest", y_static_offest)
+    # print("y_offset", y_offset)
+
+    
     
     # end responsive    
     
