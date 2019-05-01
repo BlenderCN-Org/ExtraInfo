@@ -89,51 +89,66 @@ def draw_callback_px(self, context):
     # print("window.height", window_height)
     
     # normalize y offset:
-    # ui_min = 0.5
-    # ui_max = 2
+    ui_min = 0.5
+    ui_max = 2
     # normalize range(0.5-2) to 0-1:
-    # y_normalized = (ui_scale - ui_min)/(ui_max-ui_min)
+    y_normalized = (ui_scale - ui_min)/(ui_max-ui_min)
     # print(y_normalized)
     # normalize range(0.5-2) to 0-100:
     # y_normalized = (ui_scale - ui_min)/(ui_max-ui_min)*100
     # print(y_normalized)
 
-    # OldRange = (OldMax - OldMin)  
-    # NewRange = (NewMax - NewMin)  
-    # NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
 
     if header_height == 1:
         # sin header
-
         # size min 0:
         # y_static_offest = 35
-        
         # size 1:
-        y_static_offest = 65
-        
+        # y_static_offest = 65
         # size 2 max:
         # y_static_offest = 130
+
+        OldMin = 0
+        OldMax = 1
+
+        NewMin = 35
+        NewMax = 130
+        
+        OldRange = (OldMax - OldMin)
+        OldValue = y_normalized
+
+        if OldRange == 0:
+            NewValue = NewMin
+        else:
+            NewRange = (NewMax - NewMin)  
+            y_static_offest = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
     else:
         # con header
-        
         # size min 0:
         # y_static_offest = 50
-        
         # size 1:
-        y_static_offest = 90
-        
+        # y_static_offest = 90        
         # size 2 max:
         # y_static_offest = 180
+        
+        OldMin = 0
+        OldMax = 1
 
+        NewMin = 50
+        NewMax = 180
+        
+        OldRange = (OldMax - OldMin)
+        OldValue = y_normalized
 
-    # y_offset = (header_height + header_y) - y_static_offest * ui_scale
-    # y_offset = (header_height + header_y) - y_static_offest - window_height
-    # y_offset = header_height - y_static_offest
+        if OldRange == 0:
+            NewValue = NewMin
+        else:
+            NewRange = (NewMax - NewMin)  
+            y_static_offest = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
+
+    # print(y_static_offest)
     y_offset = window_height - y_static_offest
-
-    # print("y_static_offest", y_static_offest)
     # print("y_offset", y_offset)
-
 
     fontSize = int(12 * ui_scale)
     blf.size(font_id, fontSize, 72)
