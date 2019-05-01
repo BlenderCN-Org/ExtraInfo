@@ -77,12 +77,14 @@ def draw_callback_px(self, context):
     else:   
         x_offset = 20 * ui_scale + x_offset_aTool
 
-    TOOL_HEADER = 0
-    HEADER = 1
-    TOOLS = 2
-    UI = 3
-    HUD = 4 # altura del viewport resizable
-    WINDOW = 5
+    # esto es solo en el layaout principal pero puede cambiar:
+    # TOOL_HEADER = 0
+    # HEADER = 1
+    # TOOLS = 2
+    # UI = 3
+    # HUD = 4 # altura del viewport resizable
+    # WINDOW = 5
+    # por eso me hice el metodo get_region_property
 
     header_height = get_region_property('HEADER', 'height')
     header_y = get_region_property('HEADER', 'y')
@@ -91,20 +93,13 @@ def draw_callback_px(self, context):
     # print("hud.y", bpy.context.area.regions[HUD].y)
     # print("hud.height", bpy.context.area.regions[HUD].height)
 
-    # window_y = bpy.context.area.regions[WINDOW].y
-    
+    # window_y = bpy.context.area.regions[WINDOW].y    
     
     window_height = get_region_property('WINDOW', 'height')
     # print("window.y", bpy.context.area.regions[WINDOW].y)
     # print("window.height", bpy.context.area.regions[WINDOW].height)
     
     # print("hud.height", bpy.context.area.regions[HUD].height)
-
-    # regionsTarget = ['TOOLS', 'HEADER', 'TOOL_HEADER', 'HUD']
-    for i, region in enumerate(bpy.context.area.regions):
-        # if region.type in regionsTarget:
-        print(i, region.type, ".y", region.y)
-        print(i, region.type, ".height", region.height)
 
     # responsive:
     # normalize y offset:
