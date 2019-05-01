@@ -41,6 +41,7 @@ font_info = {
     "handler": None,
 }
 
+
 def get_region_property(target_region, target_property):
     matched, i = False, 0
     regions = list(bpy.context.area.regions)
@@ -64,12 +65,6 @@ def draw_callback_px(self, context):
     
     ui_scale = bpy.context.preferences.view.ui_scale
 
-    # print("bpy.context.area.regions[1].y", bpy.context.area.regions[1].y)
-    # print("bpy.context.area.regions[1].height", bpy.context.area.regions[1].height)
-
-    # print("bpy.context.area.regions[2].x", bpy.context.area.regions[2].x)
-    # print("bpy.context.area.regions[2].width", bpy.context.area.regions[2].width)
-
     x_offset_aTool = bpy.context.area.regions[2].width
 
     if x_offset_aTool == 1:
@@ -82,26 +77,17 @@ def draw_callback_px(self, context):
     # HEADER = 1
     # TOOLS = 2
     # UI = 3
-    # HUD = 4 # altura del viewport resizable
+    # HUD = 4 
     # WINDOW = 5
     # por eso me hice el metodo get_region_property
 
     header_height = get_region_property('HEADER', 'height')
     header_y = get_region_property('HEADER', 'y')
-
-    # hud_y = bpy.context.area.regions[HUD].y
-    # print("hud.y", bpy.context.area.regions[HUD].y)
-    # print("hud.height", bpy.context.area.regions[HUD].height)
-
-    # window_y = bpy.context.area.regions[WINDOW].y    
     
     window_height = get_region_property('WINDOW', 'height')
-    # print("window.y", bpy.context.area.regions[WINDOW].y)
-    # print("window.height", bpy.context.area.regions[WINDOW].height)
+    # window_height = get_region_property('WINDOW', 'y')
+    # print("window.height", window_height)
     
-    # print("hud.height", bpy.context.area.regions[HUD].height)
-
-    # responsive:
     # normalize y offset:
     # ui_min = 0.5
     # ui_max = 2
@@ -135,17 +121,12 @@ def draw_callback_px(self, context):
 
     # y_offset = (header_height + header_y) - y_static_offest * ui_scale
     # y_offset = (header_height + header_y) - y_static_offest - window_height
-    
     # y_offset = header_height - y_static_offest
     y_offset = window_height - y_static_offest
 
     # print("y_static_offest", y_static_offest)
     # print("y_offset", y_offset)
 
-    
-    
-    # end responsive    
-    
 
     fontSize = int(12 * ui_scale)
     blf.size(font_id, fontSize, 72)
