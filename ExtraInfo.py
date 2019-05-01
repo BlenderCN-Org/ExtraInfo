@@ -104,20 +104,27 @@ def draw_callback_px(self, context):
 
     if header_height == 1:
         # sin header
-        # size 1:
-        y_static_offest = 65
-        # size 2 max:
-        # y_static_offest = 130
+
         # size min 0:
         # y_static_offest = 35
+        
+        # size 1:
+        y_static_offest = 65
+        
+        # size 2 max:
+        # y_static_offest = 130
     else:
         # con header
-        # size 1:
-        y_static_offest = 90
-        # size 2 max:
-        # y_static_offest = 180
+        
         # size min 0:
         # y_static_offest = 50
+        
+        # size 1:
+        y_static_offest = 90
+        
+        # size 2 max:
+        # y_static_offest = 180
+
 
     # y_offset = (header_height + header_y) - y_static_offest * ui_scale
     # y_offset = (header_height + header_y) - y_static_offest - window_height
